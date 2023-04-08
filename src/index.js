@@ -8,11 +8,13 @@ const app = express()
 
 
 const PORT = process.env.PORT || 3500
+// Yo a las 1100 am: por alguna razon esto causa problemas ==> app.use(express.json)
+ 
+// Yo a las 1547 pm: te faltaban los parentesis pelotudo
+app.use(express.json())
 
-//app.use(express.json) por alguna razon esto causa problemas
 
-
-app.use(bodyParser.json());
+//app.use(bodyParser.json());
 
 app.use("/api/v1/workouts", v1Router)
 

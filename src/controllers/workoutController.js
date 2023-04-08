@@ -5,10 +5,21 @@ const getAllWorkouts = (req,res) =>{
     res.send({status:200, data:allWorkouts})
 }
 
-const getOneWorkout = (req,res) =>{
-    const workout = workoutService.getOneWorkout(req.params.id)
-    res.send("Get only workout")
-}
+// const getOneWorkout = (req,res) =>{
+//     const workout = workoutService.getOneWorkout(req.params.id)
+//     res.send("Get only workout")
+// }
+const getOneWorkout = (req, res) => {
+  const {
+    params: { id },
+  } = req;
+  //Condicion de cierre
+  if (!id) {
+    return;
+  }
+  const workout = workoutService.getOneWorkout(id);
+  res.send({ status: "OK", data: workout });
+};
 
 const createNewWorkout = (req,res) =>{
 
@@ -36,21 +47,40 @@ const createNewWorkout = (req,res) =>{
     // *** ADD ***
     res.status(201).send({ status: "OK", data: createdWorkout });
 
-
-
-    // const createdWorkout = workoutService.createNewWorkout()
-    // res.send("Create workouts")
 }
 
-const updateOneWorkout = (req,res) =>{
-    const updateWorkout = workoutService.updateOneWorkout(req.params.id)
-    res.send("patch workout")
-}
+// const updateOneWorkout = (req,res) =>{
+//     const updateWorkout = workoutService.updateOneWorkout(req.params.id)
+//     res.send("patch workout")
+// }
 
-const deleteOneWorkout = (req,res) =>{
-    workoutService.deleteOneWorkout(req.params.id)
-    res.send("delete workouts")
-}
+// const deleteOneWorkout = (req,res) =>{
+//     workoutService.deleteOneWorkout(req.params.id)
+//     res.send("delete workouts")
+// }
+
+const updateOneWorkout = (req, res) => {
+  const {
+    body,
+    params: { workoutId },
+  } = req;
+  if (!workoutId) {
+    return;
+  }
+  const updatedWorkout = workoutService.updateOneWorkout(workoutId, body);
+  res.send({ status: "OK", data: updatedWorkout });
+};
+
+const deleteOneWorkout = (req, res) => {
+  const {
+    params: { workoutId },
+  } = req;
+  if (!workoutId) {
+    return;
+  }
+  workoutService.deleteOneWorkout(workoutId);
+  res.status(204).send({ status: "OK" });
+};
 
 module.exports = {
     getAllWorkouts,
